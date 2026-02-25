@@ -1,14 +1,14 @@
 const video = document.getElementById("video");
-
+const modelPath = "/face-recognition/models";
 let stream = null;
 let detectionInterval = null;
 let canvas = null;
 Promise.all([
-  faceapi.nets.tinyFaceDetector.loadFromUri("./models"),
-  faceapi.nets.ssdMobilenetv1.loadFromUri("./models"),
-  faceapi.nets.faceLandmark68Net.loadFromUri("./models"),
-  faceapi.nets.faceRecognitionNet.loadFromUri("./models"),
-  faceapi.nets.faceExpressionNet.loadFromUri("./models"),
+  faceapi.nets.tinyFaceDetector.loadFromUri(modelPath),
+  faceapi.nets.ssdMobilenetv1.loadFromUri(modelPath),
+  faceapi.nets.faceLandmark68Net.loadFromUri(modelPath),
+  faceapi.nets.faceRecognitionNet.loadFromUri(modelPath),
+  faceapi.nets.faceExpressionNet.loadFromUri(modelPath),
 ]).then();
 
 async function startCamera() {
