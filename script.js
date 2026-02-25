@@ -1,5 +1,5 @@
 const video = document.getElementById("video");
-const modelPath = "/face-recognition/models";
+const modelPath = "models";
 let stream = null;
 let detectionInterval = null;
 let canvas = null;
