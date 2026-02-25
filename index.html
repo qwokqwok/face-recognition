@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script defer src="face-api.min.js"></script>
+    <script defer src="script.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      .video-container {
+        position: relative;
+        width: 600px;
+        height: 480px;
+      }
+
+      .video-container video,
+      .video-container canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .sidebar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 220px;
+        height: 100vh;
+        background: #2c3e50;
+        color: white;
+      }
+
+      .menu-item {
+        padding: 15px 20px;
+        cursor: pointer;
+      }
+
+      .menu-item:hover {
+        background: #34495e;
+      }
+
+      .menu-item.active {
+        background: #1abc9c;
+      }
+
+      /* Content area */
+      .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 220px;
+        padding: 10px;
+      }
+
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="menu-item active" data-page="face-recognition">
+        Face Recognition
+      </div>
+      <div class="menu-item" data-page="image-recognition">
+        Image Recognition
+      </div>
+      <!-- <div class="menu-item" data-page="settings">Settings</div> -->
+    </div>
+
+    <div class="content">
+      <!-- All content already written here -->
+      <div class="page active" id="face-recognition">
+        <div class="video-container">
+          <video id="video" width="600" height="480" autoplay muted></video>
+        </div>
+        <label>
+          <input type="checkbox" id="draw-detections" checked />
+          Draw Detections
+        </label>
+
+        <label>
+          <input type="checkbox" id="draw-landmarks" checked />
+          Draw Landmarks
+        </label>
+
+        <label>
+          <input type="checkbox" id="draw-expressions" checked />
+          Draw Expressions
+        </label>
+      </div>
+
+      <div class="page" id="image-recognition">
+        <input type="file" id="imageUpload" />
+
+        <div
+          id="imageContainer"
+          style="position: relative; display: inline-block"
+        >
+          <img id="previewImage" style="max-width: 600px; display: block" />
+          <canvas id="overlay"></canvas>
+        </div>
+      </div>
+
+      <!-- <div class="page" id="settings">
+        <h1>Settings</h1>
+        <p>This is settings page content.</p>
+      </div> -->
+    </div>
+    <script>
+      const menuItems = document.querySelectorAll(".menu-item");
+      const pages = document.querySelectorAll(".page");
+
+      menuItems.forEach((item) => {
+        item.addEventListener("click", function () {
+          menuItems.forEach((i) => i.classList.remove("active"));
+          this.classList.add("active");
+
+          pages.forEach((page) => page.classList.remove("active"));
+
+          const pageId = this.getAttribute("data-page");
+          document.getElementById(pageId).classList.add("active");
+
+          // 🔥 CONTROL CAMERA HERE
+          if (pageId === "face-recognition") {
+            startCamera();
+          } else if (pageId === "image-recognition") {
+            stopCamera();
+            startImageRecognition();
+          } else {
+            stopCamera();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
